@@ -2,8 +2,6 @@ import { Router } from "express";
 import bcrypt from 'bcrypt';
 import { User } from "../database/UserModel.tsx";
 
-const userRouter = new Router();
-
 userRouter.post('/users/sign-up', async (req, res) => {
     try {
         const db = req.app.locals.db;

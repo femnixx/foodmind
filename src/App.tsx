@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import LoginPage from './client/auth/LoginPage'
 import HomePage from './client/HomePage'
 import SignUp from './client/auth/SignUp'
+import UploadPage from './client/UploadPage'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           <Route path='/sign-in' element={<LoginPage />}></Route>
           <Route path='/sign-up' element={<SignUp />}></Route>
           <Route path='/' element={<HomePage />} />
+          <Route path='/upload' element={<UploadPage />}/>
         </Routes>
       </BrowserRouter>
     </>

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRouter from '../server/routes/users.js';
 import { MongoClient } from "mongodb";
+import aicall from './routes/ai-call.js';
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,7 @@ app.get('/', (req, res) => {
     res.send("FoodMind API Running");
 });
 
+app.use('/api/ai/', aicall);
 
 const client = MongoClient.connect(process.env.MONGO_URL);
 
@@ -28,5 +30,5 @@ async function connectDB() {
 }
 connectDB();
 
-app.use('/api', userRouter);
+app.use('/api/users', userRouter);
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
