@@ -34,7 +34,7 @@ const UploadPage = () => {
             const base64Data = await arrayBufferToBase64(arrayBuffer);
 
             const model = await genAI.models.generateContent({ 
-                model: "gemini-2.5-flash-image",
+                model: "gemini-2.0-flash",
                 contents: [
                         { text: "Describe a recipe using this image." },
                         { inlineData: { mimeType: file.type, data: base64Data }}
