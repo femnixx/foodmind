@@ -50,9 +50,9 @@ userRouter.post('/users/sign-in', async (req, res) => {
             alert("Incorrect password")
         }
         
-       
+       res.status(400).json({ message: "Server error. Please try again later"});
     } catch (err) {
-        
+        console.log(err);
     }
 })
 
