@@ -40,7 +40,7 @@ const UploadPage = () => {
                         { inlineData: { mimeType: file.type, data: base64Data }}
                 ]
             });
-            const text = await model.text;
+            const text = model.text;
             setOutput(prev => [
                 ...prev,
                 text
