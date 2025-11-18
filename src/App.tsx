@@ -7,6 +7,7 @@ import LoginPage from './client/auth/LoginPage'
 import HomePage from './client/HomePage'
 import SignUp from './client/auth/SignUp'
 import UploadPage from './client/UploadPage'
+import Dashboard from './client/Dashboard'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='/sign-up' element={<SignUp />}></Route>
           <Route path='/' element={<HomePage />} />
           <Route path='/upload' element={<UploadPage />}/>
+          <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </>
