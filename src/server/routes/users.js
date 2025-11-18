@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcrypt from 'bcrypt';
 import { MongoClient } from 'mongodb';
 import jwt from 'jsonwebtoken';
+import { hash } from "crypto";
 
 const mongoClient = new MongoClient(import.meta.env.REACT_APP_MONGO_URL)
 
@@ -40,17 +41,18 @@ userRouter.post('/users/sign-in', async (req, res) => {
         const { email, password } = req.body;
 
         const existing = await users.findOne({ email });
-        const passwordValid = bcrypt.compare(password, email.hashedPassword);
+       
         if (!existing) { 
-            console.log(`{email} not found in database.`);
-            alert("Email not found in database.");
-        } 
-        if (!passwordValid) { 
-            console.log("Wrong password")
-            alert("Incorrect password")
-        }
-        
-       res.status(400).json({ message: "Server error. Please try again later"});
+        console.log("User not found");
+        alert("User not found in our database.");
+       }
+       const passwordValid = bcrypt.compare(password, hashedPassword);
+       if (!passwordValid || !email) { 
+        console.log("Password incorrect or invalid email.");
+        alert("Password incorrect invalid email.");
+       }
+
+       
     } catch (err) {
         console.log(err);
     }
