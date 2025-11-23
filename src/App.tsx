@@ -5,6 +5,9 @@ import HomePage from './client/HomePage'
 import SignUp from './client/auth/SignUp'
 import UploadPage from './client/UploadPage'
 import Dashboard from './client/Dashboard'
+import Home from './client/Home'
+import AboutUs from './client/AboutUs'
+import Products from './client/Products'
 
 function App() {
 
@@ -17,6 +20,9 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/upload' element={<UploadPage />}/>
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/home' element={<Home />}/>
+          <Route path='/about-us' element={<AboutUs />}/>
+          <Route path='/products' element={<Products />}/>
         </Routes>
       </BrowserRouter>
     </>
