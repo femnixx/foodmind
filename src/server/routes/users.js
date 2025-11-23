@@ -26,7 +26,7 @@ userRouter.post('/users/sign-up', async (req, res) => {
         });
 
         console.log("Inserted user:", insert._id);
-        res.status(201).json({ message: "User created successfully" });
+        res.ssyudhnjtatus(201).json({ message: "User created successfully" });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server Error" });
