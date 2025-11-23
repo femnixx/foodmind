@@ -14,9 +14,7 @@ const SignUp: React.FC = () => {
     password: ""
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({
       ...userData,
       [e.target.name]: e.target.value
@@ -29,7 +27,7 @@ const SignUp: React.FC = () => {
     try {
       const response = await fetch("http://localhost:5000/api/users/sign-up", {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData)
       });
 
@@ -41,13 +39,14 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white w-full max-w-md p-10 rounded-2xl shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
+    <div className="h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="bg-white w-full max-w-md p-10 rounded-2xl shadow-md border border-gray-200">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Create Your Account
         </h1>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
+          {/** Full Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Full Name
@@ -62,6 +61,7 @@ const SignUp: React.FC = () => {
             />
           </div>
 
+          {/** Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -76,6 +76,7 @@ const SignUp: React.FC = () => {
             />
           </div>
 
+          {/** Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
