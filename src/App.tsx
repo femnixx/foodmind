@@ -1,13 +1,13 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import LoginPage from '../frontend/client/auth/LoginPage'
-import HomePage from '../frontend/client/HomePage'
-import SignUp from '../frontend/client/auth/SignUp'
-import UploadPage from '../frontend/client/UploadPage'
-import Dashboard from '../frontend/client/Dashboard'
-import Home from '../frontend/client/Home'
-import AboutUs from '../frontend/client/AboutUs'
-import Products from '../frontend/client/Products'
+import LoginPage from './frontend/auth/LoginPage'
+import HomePage from './frontend/client/HomePage'
+import SignUp from './frontend/auth/SignUp'
+import UploadPage from './frontend/client/UploadPage'
+import Dashboard from './frontend/client/Dashboard'
+import Home from './frontend/client/Home'
+import AboutUs from './frontend/client/AboutUs'
+import Products from './frontend/client/Products'
 
 function App() {
 

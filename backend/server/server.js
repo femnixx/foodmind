@@ -1,45 +1,41 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const { MongoClient } = require('mongodb');
-const userRouter = require('./routes/users');   // no .js needed in CommonJS
-const aicall = require('./routes/ai-call');
+import express from 'express';
+import cors from 'cors';
+import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 const app = express();
+const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Root route
-app.get('/', (req, res) => {
-    res.send("FoodMind API Running");
-});
-
-// AI routes
-app.use('/api/ai', aicall);
-
-// MongoDB connection
-let client;
+const client = new MongoClient(process.env.MONGO_URL);
+let db;
 
 async function connectDB() {
     try { 
-        client = new MongoClient(process.env.MONGO_URL);
-        await client.connect();
-        console.log("MongoDB Connected");
-
-        app.locals.db = client.db(process.env.MONGO_DB_NAME);
+         await client.connect();
+         db = client.db(process.env_MONGO_DB);
+         console.log('Connected to MongoDB');
     } catch (err) {
-        console.error("DB connection error:", err);
+        console.error("Mongo error: ", err);
         process.exit(1);
     }
 }
 
 connectDB();
 
-// User routes
-app.use('/api/users', userRouter);
+app.get('/', (req, res) => {
+    console.log('Server running');
+    res.send("Welcome to the backend");
+});
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.listen(port, () => {
+    console.log('Express server running normally at http://localhost:5000.');
+});
+
+
+
+
