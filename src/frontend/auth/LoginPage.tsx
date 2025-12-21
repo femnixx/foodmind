@@ -1,16 +1,40 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Login attempt:", { email, password });
-    // Add fetch request to backend API here
-    fetch("")
+  const navigate = useNavigate();
+  const payload = { 
+    email,
+    password
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    try { 
+    e.preventDefault();
+    console.log("Login attempt:", { email });
+    const response = await fetch("http://localhost:5000/api/auth/sign-in", { 
+      method: "POST",
+      headers: { 'Content-Type' : "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(errorText);
+      return;
+    }
+    const data = await response.json();
+    console.log("Successful login", data);
+    alert("Sign in successful!");
+    navigate('/');
+    } catch (e) {
+      console.log("Submit form error: ", e);
+    }
+  };
+
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-50 px-4">

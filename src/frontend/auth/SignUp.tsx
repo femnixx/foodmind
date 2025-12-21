@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent page reload
@@ -21,6 +24,7 @@ const SignUp = () => {
       const data = await response.json();
       console.log("Full response object: ", data);
       alert("Sign up successful!");
+       navigate('/');
     } catch (err) { 
       console.log("Submit Error: ", err);
     }
@@ -86,7 +90,7 @@ const SignUp = () => {
 
         <p className="text-center mt-4 text-sm text-gray-600">
           Already have an account?{" "}
-          <Link to="/login" className="text-yellow-600 hover:underline">
+          <Link to="/sign-in" className="text-yellow-600 hover:underline">
             Log in
           </Link>
         </p>
