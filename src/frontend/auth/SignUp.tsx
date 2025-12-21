@@ -6,21 +6,21 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const payload = { 
-    username,
-    email,
-    password
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // prevent page reload
 
-  const handleSubmit = async () => {
+    const payload = { username, email, password };
+
     try { 
       const response = await fetch("http://localhost:5000/api/auth/sign-up", {
+        method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
       
-      console.log("Full response object: ", response);
-      alert("Sign up successful!")
+      const data = await response.json();
+      console.log("Full response object: ", data);
+      alert("Sign up successful!");
     } catch (err) { 
       console.log("Submit Error: ", err);
     }
@@ -33,49 +33,56 @@ const SignUp = () => {
           Create Your Account
         </h1>
 
-          <div className="flex flex-col gap-y-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
-              </label>
-              <input
-                name="username"
-                type="text"
-                placeholder="Enter your full name"
-                className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 focus:outline-none"
-              />
-            </div>
-            {/** Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 focus:outline-none"
-              />
-            </div>
-            {/** Password */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                name="password"
-                type="password"
-                placeholder="Enter a strong password"
-                className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-yellow-600 text-white py-3 rounded-xl hover:bg-yellow-700 transition font-medium"
-            >
-              Sign Up
-            </button>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Full Name
+            </label>
+            <input
+              name="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your full name"
+              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            />
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <input
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter a strong password"
+              className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-yellow-600 text-white py-3 rounded-xl hover:bg-yellow-700 transition font-medium"
+          >
+            Sign Up
+          </button>
+        </form>
 
         <p className="text-center mt-4 text-sm text-gray-600">
           Already have an account?{" "}
