@@ -2,6 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import { connectDB } from '../db.js';
 import { ObjectId } from 'mongodb';
+import jwt from 'jsonwebtoken';
 
 const userRouter = Router();
 
@@ -62,7 +63,12 @@ userRouter.post('/sign-in', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: 'Invalid credentials.' });
 
-        res.json({ message: 'Signed in successfully', userId: user._id });
+        const token = jwt.sign(
+            {userId: user._id},
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" } 
+        )
+        res.json({ message: 'Signed in successfully', token });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

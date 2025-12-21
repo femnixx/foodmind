@@ -10,7 +10,7 @@ const LoginPage: React.FC = () => {
     email,
     password
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     try { 
     e.preventDefault();
@@ -27,6 +27,7 @@ const LoginPage: React.FC = () => {
       return;
     }
     const data = await response.json();
+    localStorage.setItem("token", data.token);
     console.log("Successful login", data);
     alert("Sign in successful!");
     navigate('/');
