@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Popup from './Popup';
+import { useEffect } from 'react';
 
 const Navbar = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+   const [username, setUsername] = useState("User");
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
   return (
@@ -23,12 +24,12 @@ const Navbar = () => {
         </div>
 
         
-        <div className="hidden sm:flex gap-x-4 items-center">
+        <div className={`${ localStorage.getItem("user") ? "hidden" : "flex"} hidden gap-x-4 items-center`}>
           <Link to="/sign-in" className="hover:text-orange-500 transition">Login</Link>
           <span className="border-l h-6 border-gray-300"></span>
           <Link to="/sign-up" className="hover:text-orange-500 transition">Signup</Link>
         </div>
-
+        <button className={`${localStorage.getItem("user") ? "flex" : "hidden"} hover:cursor-pointer`}>Welcome, {username}!</button>
         
         <button
           className="sm:hidden p-2 border rounded-full hover:bg-gray-100 hover:border-yellow-500 hover:text-yellow-500 hover:cursor-pointer transition"

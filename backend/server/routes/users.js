@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { connectDB } from '../db.js';
 import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
+import { userInfo } from 'os';
 
 const userRouter = Router();
 
@@ -63,7 +64,7 @@ userRouter.post('/sign-in', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: 'Invalid credentials.' });
 
-        const token = jwt.sign(
+        jwt.sign(
             {userId: user._id},
             process.env.JWT_SECRET,
             { expiresIn: "1h" } 
@@ -75,6 +76,7 @@ userRouter.post('/sign-in', async (req, res) => {
                 email: user.email
             }
         }});
+        localStorage.setItem("user", JSON.stringify(userInfo));
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

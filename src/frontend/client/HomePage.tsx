@@ -1,6 +1,9 @@
 import Navbar from '../components/Navbar';
+import { useEffect, useEffectEvent } from 'react';
+import { useState } from 'react';
 
 const HomePage = () => {
+
   return (
     <div className="w-screen h-screen">
       <div className='fixed'>
