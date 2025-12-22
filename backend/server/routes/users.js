@@ -68,7 +68,13 @@ userRouter.post('/sign-in', async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: "1h" } 
         )
-        res.json({ message: 'Signed in successfully', token });
+        res.json({ message: 'Signed in successfully', user: {
+            user: {
+                _id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        }});
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

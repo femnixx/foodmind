@@ -12,7 +12,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent page reload
 
-    const payload = { username, email, password };
+    const payload = { username: username.trim(), email, password };
 
     try { 
       const response = await fetch("http://localhost:5000/api/auth/sign-up", {
@@ -40,14 +40,14 @@ const SignUp = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Full Name
+              Username
             </label>
             <input
               name="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your full name"
+              placeholder="Enter your username"
               className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-yellow-500 focus:outline-none"
             />
           </div>
