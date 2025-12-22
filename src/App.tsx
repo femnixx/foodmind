@@ -8,6 +8,7 @@ import Dashboard from './frontend/client/Dashboard'
 import Home from './frontend/client/Home'
 import AboutUs from './frontend/client/AboutUs'
 import Products from './frontend/client/Products'
+import Profile from './frontend/client/Profile'
 
 function App() {
 
@@ -23,6 +24,8 @@ function App() {
           <Route path='/home' element={<Home />}/>
           <Route path='/about-us' element={<AboutUs />}/>
           <Route path='/products' element={<Products />}/>
+          <Route path='/profile' element={<Profile />}/>
+
         </Routes>
       </BrowserRouter>
     </>

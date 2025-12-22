@@ -29,7 +29,7 @@ const Navbar = () => {
           <span className="border-l h-6 border-gray-300"></span>
           <Link to="/sign-up" className="hover:text-orange-500 transition">Signup</Link>
         </div>
-        <button className={`${localStorage.getItem("user") ? "flex" : "hidden"} hover:cursor-pointer`}>Welcome, {username}!</button>
+        <Link to="/profile" className={`${localStorage.getItem("user") ? "flex" : "hidden"} hover:cursor-pointer`}>Welcome, {username}!</Link>
         
         <button
           className="sm:hidden p-2 border rounded-full hover:bg-gray-100 hover:border-yellow-500 hover:text-yellow-500 hover:cursor-pointer transition"
