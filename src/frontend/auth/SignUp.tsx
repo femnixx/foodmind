@@ -24,7 +24,7 @@ const SignUp = () => {
       const data = await response.json();
       console.log("Full response object: ", data);
       alert("Sign up successful!");
-       navigate('/');
+       navigate('/sign-in');
     } catch (err) { 
       console.log("Submit Error: ", err);
     }

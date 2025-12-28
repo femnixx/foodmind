@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,7 +27,6 @@ const LoginPage: React.FC = () => {
       return;
     }
     const data = await response.json();
-    localStorage.setItem("user", data.user);
     console.log("Successful login", data);
     alert("Sign in successful!");
     navigate('/');

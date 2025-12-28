@@ -4,6 +4,7 @@ import { connectDB } from '../db.js';
 import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
 import { userInfo } from 'os';
+import { authMiddleware } from '../authMiddleware.js';
 
 const userRouter = Router();
 
@@ -40,7 +41,10 @@ userRouter.post('/sign-up', async (req, res) => {
     try {
         const db = await connectDB();
         const existingUser = await db.collection('users').findOne({ email });
-        if (existingUser) return res.status(409).json({ message: 'Email already registered.' });
+        if (existingUser) {
+            res.status(409).json({ message: 'Email already registered.' });
+            window.alert("Email already registered.");
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await db.collection('users').insertOne({ username, email, password: hashedPassword });
@@ -54,7 +58,9 @@ userRouter.post('/sign-up', async (req, res) => {
 // SIGN-IN
 userRouter.post('/sign-in', async (req, res) => {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ message: 'Missing field.' });
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Missing field.' });
+    }
 
     try {
         const db = await connectDB();
@@ -64,23 +70,61 @@ userRouter.post('/sign-in', async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: 'Invalid credentials.' });
 
-        jwt.sign(
-            {userId: user._id},
+        const token = jwt.sign(
+            { userId: user._id },
             process.env.JWT_SECRET,
-            { expiresIn: "1h" } 
-        )
-        res.json({ message: 'Signed in successfully', user: {
+            { expiresIn: '1h' }
+        );
+
+        // ✅ Store JWT in cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,      // set false if no HTTPS (local dev)
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 1000
+        });
+
+        res.json({
+            message: 'Signed in successfully',
+            token: token,
             user: {
                 _id: user._id,
                 username: user.username,
                 email: user.email
             }
-        }});
-        localStorage.setItem("user", JSON.stringify(userInfo));
+        });
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
+
+// GET USER PROFILE
+userRouter.get('/me', authMiddleware, async (req, res) => {
+    try { 
+        const db = await connectDB();
+        const user = await db
+        .collection('users')
+        .findOne(
+            { _id: new ObjectId(req.userId) },
+            { projection: { password: 0 } }
+        );
+        res.json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
+})
+
+// LOG OUT
+userRouter.post('/logout', async (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict'
+    });
+    res.json({ message: "Logged out successfully"});
+})
 
 // UPDATE user
 userRouter.put('/users/:id', async (req, res) => {

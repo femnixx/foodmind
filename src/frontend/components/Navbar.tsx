@@ -2,10 +2,26 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Popup from './Popup';
 import { useEffect } from 'react';
+import { SquareStack } from 'lucide-react';
 
 const Navbar = () => {
+  
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-   const [username, setUsername] = useState("User");
+  const [username, setUsername] = useState("");
+  const name = localStorage.getItem("username");
+
+  useEffect(() => {
+    fetch("/api/auth/me", {
+      credentials: "include",
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Not logged in");
+      return res.json();
+    })
+    .then(user => setUsername(user.username))
+    .catch(() => setUsername(""));
+  }, []);
+
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
   return (
@@ -24,12 +40,13 @@ const Navbar = () => {
         </div>
 
         
-        <div className={`${ localStorage.getItem("user") ? "hidden" : "flex"} hidden gap-x-4 items-center`}>
+        <div className={`${username ? "hidden" : "flex"} gap-x-4 items-center`}>
           <Link to="/sign-in" className="hover:text-orange-500 transition">Login</Link>
           <span className="border-l h-6 border-gray-300"></span>
           <Link to="/sign-up" className="hover:text-orange-500 transition">Signup</Link>
         </div>
-        <Link to="/profile" className={`${localStorage.getItem("user") ? "flex" : "hidden"} hover:cursor-pointer`}>Welcome, {username}!</Link>
+
+        <Link className={`${username ? "flex" : "hidden"}`} to="/profile">Welcome, {username}!</Link>
         
         <button
           className="sm:hidden p-2 border rounded-full hover:bg-gray-100 hover:border-yellow-500 hover:text-yellow-500 hover:cursor-pointer transition"
